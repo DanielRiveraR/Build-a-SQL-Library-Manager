@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    head 
+        title= 'Page Not Found'
+        link(rel="stylesheet" href="../public/stylesheet/style.css")
+
+    body 
+        h1 Page Not Found 
+        p= error.message 
+        br
+        p 
+            a(class="button" href="/") Back to Home    

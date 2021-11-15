@@ -1,26 +1,24 @@
 body {
   padding: 10px 50px 50px;
-  font: 18px "Garamond", serif;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #019875;
-  text-decoration: none;
+  color: #00B7FF;
   font-weight: bold;
   transition: 0.4s;
 }
 
-  a:hover {
-    color: black;
-  }
+a:hover {
+  color: cornflowerblue;
+}
 
 a.button, input[type=submit] {
   color: white;
   background: #019875;
-  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   padding: 10px 14px 12px;
   font-size: 14px;
-  border-radius: 2px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -33,9 +31,9 @@ input[type=submit] {
   border: 0;
 }
 
-  a.button:hover, input[type=submit]:hover {
-    background-color: #01b189;
-  }
+a.button:hover, input[type=submit]:hover {
+  background-color: #01b189;
+}
 
 p {
   margin: 20px auto;
@@ -80,10 +78,9 @@ label {
 
 input {
   padding: 10px;
-  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  border-radius: 2px;
-  border-color: #E7E7E7;
+  border-radius: 4px;
+  border-color: whitesmoke;
   transition: 0.4s;
 }
 
