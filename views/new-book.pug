@@ -13,14 +13,14 @@ block content
             input(name="title" type="text" id="title" value=book.title)
         p
             label(for="author") Author
-            input(name="author" type="text" id="author" value=book.title) 
+            input(name="author" type="text" id="author" value=book.author) 
         p
             label(for="genre") Genre
-            input(name="genre" type="text" id="genre" value=book.title) 
+            input(name="genre" type="text" id="genre" value=book.genre) 
         p
             label(for="year") Year
-            input(name="year" type="text" id="year" value=book.title) 
+            input(name="year" type="text" id="year" value=book.year) 
         p
-            a(name="submit" class="button" href="/" value="Create New Book") Create New Book
+            input(type="submit" value="Create New Book")
         p
             a(class="button" href="/") Cancel                     
