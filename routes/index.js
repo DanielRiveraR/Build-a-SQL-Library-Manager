@@ -2,6 +2,7 @@ const express = require('express');
 const Book = require('../models').Book;
 const router = express.Router();
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 /* Handler function to wrap each route. */
@@ -128,6 +129,20 @@ router.use((error, req, res, next) => {
   }
 });
 
-
+/* Search bar */
+router.post("/search", asyncHandler(async(req,res) => {
+  const searchMatches = req.body.search.toLowerCase();
+  const books = await Book.findAll({
+    where: {
+      [Op.or]: [
+        { Title: {[Op.like]: `%${searchMatches}%` }},
+        { Author: {[Op.like]: `%${searchMatches}%` }},
+        { Genre: {[Op.like]: `%${searchMatches}%` }},
+        { Year: {[Op.like]: `%${searchMatches}%` }},
+      ]
+    }
+  })
+  res.render('index', {books:books});
+}));
 
 module.exports = router;
