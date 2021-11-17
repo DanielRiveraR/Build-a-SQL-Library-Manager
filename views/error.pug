@@ -1,7 +1,5 @@
-extends layout
-
-block content
-  h1= error.message
+if(errors)
+  h1.error Ooops! an error occured.
   h2= `Error code: ${error.status}`
   p
     a(class="button" href="/") Back to Home                     
