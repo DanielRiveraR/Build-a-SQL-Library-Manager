@@ -23,8 +23,29 @@ router.get('/', (req, res) =>{
 
 /* GET books page. */
 router.get('/books', asyncHandler(async (req, res) => {
-  const books = await Book.findAll({ order: [["createdAt", "DESC"]] });
+  const books = await Book.findAll({ 
+    order: [["createdAt", "DESC"]],
+    offset: 5,
+    limit: 5
+ });
+
+ const query = req.query;
+ const matches = await Book.findAll({
+  where: {
+    [Op.or]: [
+            { Title: {[Op.like]: `%${query}%` }},
+            { Author: {[Op.like]: `%${query}%` }},
+            { Genre: {[Op.like]: `%${query}%` }},
+            { Year: {[Op.like]: `%${query}%` }},
+            ]
+          }
+})
+
+ if (query) {
+  res.render('index', {matches});
+ } else {
   res.render('index', {books});
+ }
 }));
 
 /* GET create book. */
@@ -130,19 +151,20 @@ router.use((error, req, res, next) => {
 });
 
 /* Search bar */
-router.post("/search", asyncHandler(async(req,res) => {
-  const searchMatches = req.body.search.toLowerCase();
-  const books = await Book.findAll({
-    where: {
-      [Op.or]: [
-        { Title: {[Op.like]: `%${searchMatches}%` }},
-        { Author: {[Op.like]: `%${searchMatches}%` }},
-        { Genre: {[Op.like]: `%${searchMatches}%` }},
-        { Year: {[Op.like]: `%${searchMatches}%` }},
-      ]
-    }
-  })
-  res.render('index', {books:books});
-}));
+// router.post("/search", asyncHandler(async(req,res) => {
+//   const searchMatches = req.query;
+//   searchMatches = searchMatches.toLowerCase();
+//   const books = await Book.findAll({
+//     where: {
+//       [Op.or]: [
+//               { Title: {[Op.like]: `%${searchMatches}%` }},
+//               { Author: {[Op.like]: `%${searchMatches}%` }},
+//               { Genre: {[Op.like]: `%${searchMatches}%` }},
+//               { Year: {[Op.like]: `%${searchMatches}%` }},
+//               ]
+//             }
+//   })
+//   res.render('index', {books:books});
+// }));
 
 module.exports = router;
