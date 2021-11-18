@@ -29,7 +29,7 @@ router.get('/books', asyncHandler(async (req, res) => {
     limit: 5
  });
 
- const query = req.query;
+ let query = req.query.search;
  const matches = await Book.findAll({
   where: {
     [Op.or]: [
@@ -42,7 +42,7 @@ router.get('/books', asyncHandler(async (req, res) => {
 })
 
  if (query) {
-  res.render('index', {matches});
+  res.render('index', {books:matches});
  } else {
   res.render('index', {books});
  }
