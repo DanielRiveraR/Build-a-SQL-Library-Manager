@@ -25,5 +25,11 @@ block content
           td= book.year
 
   div(class="pagination-button")
-    a(type="search" href="/books?page=1" id="pagination-back" value="pagination" ) < Back
-    a(type="search" href="/books?page=2" id="pagination-next" value="pagination" ) Next >
+    -var n = 1;
+    while n < bookList
+    a= n++
+    while n > bookList
+    a= n--
+
+    a(href="/books?page="+n id="pagination-back" value= "< Back")='< Back'
+    a(href="/books?page="+n id="pagination-next" value="Next >" )='Next >'
