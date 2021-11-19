@@ -61,6 +61,14 @@ input[type=submit]:hover,
   margin-left: 0;  
 }
 
+.pagination-button {
+  display: flex;
+  justify-content: end;
+}
+
+#pagination-next {
+  padding-left: 10px;
+}
 
 p {
   margin: 20px auto;

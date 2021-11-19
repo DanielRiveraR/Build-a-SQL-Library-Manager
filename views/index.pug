@@ -25,6 +25,5 @@ block content
           td= book.year
 
   div(class="pagination-button")
-    form(action="/books")
-      label(for="pagination")
-      button.button(type="search" id="pagination" value="pagination" ) >
+    a(type="search" href="/books?page=1" id="pagination-back" value="pagination" ) < Back
+    a(type="search" href="/books?page=2" id="pagination-next" value="pagination" ) Next >
