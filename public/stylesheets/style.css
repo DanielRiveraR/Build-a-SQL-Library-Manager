@@ -50,7 +50,10 @@ input[type=submit] {
 }
 
 
-a.button:hover, input[type=submit]:hover {
+a.button:hover, 
+input[type=submit]:hover, 
+#pagination:hover, 
+#search:hover {
   background-color: black;
 }
 

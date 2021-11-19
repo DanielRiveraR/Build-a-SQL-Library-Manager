@@ -21,14 +21,31 @@ router.get('/', (req, res) =>{
   res.redirect('/books');
 });
 
-/* GET books page. */
+/* GET books page. It shows the first 5 entries*/
 router.get('/books', asyncHandler(async (req, res) => {
-  const books = await Book.findAll({ 
+
+/** This code sets params in order to limit the books pagination */  
+  const pageAsNumber = Number.parseInt(req.query.page);
+  const sizeAsNumber = Number.parseInt(req.query.size);
+
+  let page = 0;
+  if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
+    page = pageAsNumber;
+  }
+
+  let size = 5; 
+  if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 5) {
+    size = sizeAsNumber;
+  }
+
+  const booksList = await Book.findAll({ 
     order: [["createdAt", "DESC"]],
-    offset: 5,
-    limit: 5
+    offset: page * size,
+    limit: size
  });
 
+
+ /* This code takes the query string from the search field and render the result. */
  let query = req.query.search;
  const matches = await Book.findAll({
   where: {
@@ -44,8 +61,10 @@ router.get('/books', asyncHandler(async (req, res) => {
  if (query) {
   res.render('index', {books:matches});
  } else {
-  res.render('index', {books});
+  res.render('index', {books:booksList});
  }
+
+
 }));
 
 /* GET create book. */
@@ -149,22 +168,5 @@ router.use((error, req, res, next) => {
   res.status(500).render('error', { error });
   }
 });
-
-/* Search bar */
-// router.post("/search", asyncHandler(async(req,res) => {
-//   const searchMatches = req.query;
-//   searchMatches = searchMatches.toLowerCase();
-//   const books = await Book.findAll({
-//     where: {
-//       [Op.or]: [
-//               { Title: {[Op.like]: `%${searchMatches}%` }},
-//               { Author: {[Op.like]: `%${searchMatches}%` }},
-//               { Genre: {[Op.like]: `%${searchMatches}%` }},
-//               { Year: {[Op.like]: `%${searchMatches}%` }},
-//               ]
-//             }
-//   })
-//   res.render('index', {books:books});
-// }));
 
 module.exports = router;

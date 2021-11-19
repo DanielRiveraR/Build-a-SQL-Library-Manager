@@ -6,7 +6,7 @@ block content
     a(class="button" href="/books/new") Create New book
     form(action="/books")
       label(for="search")
-      button.button(type="submit" value="search") Search
+      button.button(type="submit" id="search" value="search") Search
       input(type="text" name="search" placeholder="Search by title,author,name,year...")
 
   table 
@@ -24,4 +24,7 @@ block content
           td= book.genre 
           td= book.year
 
-  div
+  div(class="pagination-button")
+    form(action="/books")
+      label(for="pagination")
+      button.button(type="search" id="pagination" value="pagination" ) >
