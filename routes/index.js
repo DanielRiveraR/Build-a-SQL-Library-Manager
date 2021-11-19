@@ -44,6 +44,20 @@ router.get('/books', asyncHandler(async (req, res) => {
     limit: size
  });
 
+ /** This is what im trying to use to loop through the entire list  */
+
+//  let numOfPage = Math.ceil(booksList.length / size);
+//    const linkList = document.querySelector('.link-list');
+//    linkList.innerHTML = '';
+
+//    for (let i = 1; i <= numOfPage; i++) {
+//       let button = `
+//       <li>
+//          <button type="button">${i}</button>
+//       </li>
+//       `;
+//       res.render('something');
+//    }
 
  /* This code takes the query string from the search field and render the result. */
  let query = req.query.search;
