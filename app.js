@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+const paginate = require('express-paginate');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -20,6 +21,8 @@ try{
   console.error('Unable to connect to the database ', error);
 }
 
+
+app.use(paginate.middleware(10, 50));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

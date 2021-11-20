@@ -3,6 +3,7 @@ const Book = require('../models').Book;
 const router = express.Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const paginate = require('express-paginate');
 
 
 /* Handler function to wrap each route. */
@@ -21,6 +22,8 @@ router.get('/', (req, res) =>{
   res.redirect('/books');
 });
 
+
+
 /* GET books page. It shows the first 5 entries*/
 router.get('/books', asyncHandler(async (req, res) => {
 
@@ -28,11 +31,10 @@ router.get('/books', asyncHandler(async (req, res) => {
   const pageAsNumber = Number.parseInt(req.query.page);
   const sizeAsNumber = Number.parseInt(req.query.size);
 
-
   let page = 0;
-  if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
-    page = pageAsNumber;
-  }
+  // if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
+  //   page = pageAsNumber;
+  // }
 
   let size = 5; 
   if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 5) {
@@ -57,21 +59,26 @@ router.get('/books', asyncHandler(async (req, res) => {
             { Year: {[Op.like]: `%${query}%` }},
             ]
           }
-})
+});
 
  if (query) {
-  res.render('index', {books:matches});
+  res.render('index', {
+    books:matches,
+  });
+
  } else {
-  res.render('index', {books:booksList});
+  res.render('index', {
+      books: booksList,
+    });
+
  }
-
-
 }));
 
 /* GET create book. */
 router.get('/books/new', (req, res) =>{
   res.render('new-book', {  book: {}, title: 'New Book' });
 });
+
 
 /*POST create a book. */
 router.post('/books/new', asyncHandler(async(req, res) =>{

@@ -25,11 +25,22 @@ block content
           td= book.year
 
   div(class="pagination-button")
-    -var n = 1;
-    while n < bookList
-    a= n++
-    while n > bookList
-    a= n--
+  ul.pagination
+    
 
-    a(href="/books?page="+n id="pagination-back" value= "< Back")='< Back'
-    a(href="/books?page="+n id="pagination-next" value="Next >" )='Next >'
+    while page > 1 
+    li.page-item 
+      a.page-link(href=`?page=${parseInt(page) - 1}`) Previous
+
+    - var i = 1;
+    while i <= page
+    li.page-item 
+      a.page-link(href=`?page=${i}`)= i++
+
+    while page < 3
+    li.page-item 
+      a.page-link(href=`?page=${parseInt(page) + 1}`) Next 
+
+
+    
+    
