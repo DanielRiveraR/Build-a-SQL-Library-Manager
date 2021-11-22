@@ -10,7 +10,8 @@ var usersRouter = require('./routes/users');
 let db = require('./models');
 let sequelize = db.sequelize;
 var app = express();
-
+const User = sequelize.define('Users',{})
+const router = express.Router();
 
 
 try{
@@ -23,6 +24,7 @@ try{
 
 
 app.use(paginate.middleware(10, 50));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

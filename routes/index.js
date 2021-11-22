@@ -27,24 +27,33 @@ router.get('/', (req, res) =>{
 /* GET books page. It shows the first 5 entries*/
 router.get('/books', asyncHandler(async (req, res) => {
 
-/** This code sets params in order to limit the books pagination */  
-  const pageAsNumber = Number.parseInt(req.query.page);
-  const sizeAsNumber = Number.parseInt(req.query.size);
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
 
-  let page = 0;
-  // if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
-  //   page = pageAsNumber;
-  // }
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
 
-  let size = 5; 
-  if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 5) {
-    size = sizeAsNumber;
+  const results = {};
+
+  if (endIndex < 10) {
+    results.next = {
+      page: page + 1,
+      limit: limit
   }
+  
+  }
+  if (startIndex > 0) {
+    results.previous = {
+      page: page - 1,
+      limit: limit
+    }
+  }
+  
 
   const booksList = await Book.findAll({ 
     order: [["createdAt", "DESC"]],
-    offset: page * size,
-    limit: size
+    offset: page * limit,
+    limit: limit,
  });
 
 
