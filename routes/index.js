@@ -19,20 +19,21 @@ function asyncHandler(cb){
 
 /* GET home page. */
 router.get('/', (req, res) =>{
-  res.redirect('/books');
+  res.redirect("/books");
 });
 
 
 
 /* GET books page. It shows the first 5 entries*/
-router.get('/books', asyncHandler(async (req, res) => {
+router.get("/books", asyncHandler(async (req, res) => {
 
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
+  const page = parseInt(req.query.page || 1);
+  const limit = parseInt(req.query.limit || 10);
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   const perPage = 5;
+
 
   // const results = {};
 
@@ -53,14 +54,14 @@ router.get('/books', asyncHandler(async (req, res) => {
 
   const booksList = await Book.findAndCountAll({ 
     order: [["createdAt", "DESC"]],
-    offset: perPage,
+    offset: page * perPage - perPage,
     limit: perPage
  });
 
 
  /* This code takes the query string from the search field and render the result. */
- let query = req.query.search;
- const matches = await Book.findAll({
+ let query = req.query.search || "";
+ const matches = await Book.findAndCountAll({
   where: {
     [Op.or]: [
             { Title: {[Op.like]: `%${query}%` }},
@@ -68,12 +69,16 @@ router.get('/books', asyncHandler(async (req, res) => {
             { Genre: {[Op.like]: `%${query}%` }},
             { Year: {[Op.like]: `%${query}%` }},
             ]
-          }
+          },
+      order: [["createdAt", "DESC"]],
+      offset: page * perPage - perPage,
+      limit: perPage    
 });
 
  if (query) {
   res.render('index', {
-    books:matches,
+    books: matches.rows,
+    pages: parseInt(matches.count / perPage),
   });
 
  } else {
@@ -96,7 +101,7 @@ router.post('/books/new', asyncHandler(async(req, res) =>{
   let book;
   try{
     book = await Book.create(req.body);
-    res.redirect('/');
+    res.redirect("/books?page=1");
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       book = await Book.build(req.body);

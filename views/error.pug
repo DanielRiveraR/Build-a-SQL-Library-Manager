@@ -2,5 +2,5 @@ if(errors)
   h1.error Ooops! an error occured.
   h2= `Error code: ${error.status}`
   p
-    a(class="button" href="/") Back to Home                     
+    a(class="button" href="/books?page=1") Back to Home                     
   pre #{error.stack}
