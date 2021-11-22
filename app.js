@@ -23,7 +23,7 @@ try{
 }
 
 
-app.use(paginate.middleware(10, 50));
+// app.use(paginate.middleware(5, 50));
 
 
 // view engine setup

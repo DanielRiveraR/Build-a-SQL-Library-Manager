@@ -3,7 +3,7 @@ const Book = require('../models').Book;
 const router = express.Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const paginate = require('express-paginate');
+// const paginate = require('express-paginate');
 
 
 /* Handler function to wrap each route. */
@@ -32,28 +32,29 @@ router.get('/books', asyncHandler(async (req, res) => {
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
+  const perPage = 5;
 
-  const results = {};
+  // const results = {};
 
-  if (endIndex < 10) {
-    results.next = {
-      page: page + 1,
-      limit: limit
-  }
+  // if (endIndex < 10) {
+  //   results.next = {
+  //     page: page + 1,
+  //     limit: limit
+  // }
   
-  }
-  if (startIndex > 0) {
-    results.previous = {
-      page: page - 1,
-      limit: limit
-    }
-  }
+  // }
+  // if (startIndex > 0) {
+  //   results.previous = {
+  //     page: page - 1,
+  //     limit: limit
+  //   }
+  // }
   
 
-  const booksList = await Book.findAll({ 
+  const booksList = await Book.findAndCountAll({ 
     order: [["createdAt", "DESC"]],
-    offset: page * limit,
-    limit: limit,
+    offset: perPage,
+    limit: perPage
  });
 
 
@@ -77,7 +78,8 @@ router.get('/books', asyncHandler(async (req, res) => {
 
  } else {
   res.render('index', {
-      books: booksList,
+      books: booksList.rows,
+      pages: parseInt(booksList.count / perPage),
     });
 
  }

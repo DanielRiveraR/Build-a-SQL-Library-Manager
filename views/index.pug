@@ -28,18 +28,18 @@ block content
   ul.pagination
     
 
-    while startIndex > 1 
-      li.page-item 
-        a.page-link(href=`?page=${results - 1}`) Previous
+    while booksList.rows > 1 
+      li 
+        a(href=`?page=${booksList.count - 1}`) Previous
 
     - var i = 1;
-    while i <= results
-      li.page-item 
-        a.page-link(href=`?page=${i}`)= i++
+    while i <= booksList.rows
+      li
+        a(href=`?page=${i}`)= i++
 
-    while results < endIndex
-      li.page-item 
-        a.page-link(href=`?page=${parseInt(results) + 1}`) Next 
+    while booksList.count < booksList.row
+      li 
+        a(href=`?page=${parseInt(booksList.count) + 1}`) Next 
 
 
   
